@@ -158,8 +158,9 @@ h1{font-family:'Comfortaa',cursive;font-size:clamp(2.7rem,9vw,4.8rem);font-weigh
 /* ══ КАРТОЧКИ ══ */
 .grid{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px 60px;
   display:grid;gap:46px;grid-template-columns:repeat(auto-fit,minmax(285px,1fr))}
-.card{position:relative;padding:11px;z-index:1;opacity:0;transform:translateY(55px);will-change:transform;
-  transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.25,1)}
+.card{position:relative;padding:11px;z-index:1;opacity:0;
+  transform:translateY(28px) scale(.975);will-change:transform,opacity;
+  transition:opacity .55s ease-out, transform .62s cubic-bezier(.22,.9,.3,1)}
 .card.in{opacity:1;transform:none}
 .frame{position:absolute;inset:0;z-index:5;pointer-events:none}
 .frame svg{width:100%;height:100%;fill:none;stroke:#ffc9ef;
@@ -172,7 +173,7 @@ h1{font-family:'Comfortaa',cursive;font-size:clamp(2.7rem,9vw,4.8rem);font-weigh
   border-radius:22px;overflow:hidden;height:100%;isolation:isolate;position:relative;z-index:1;
   display:flex;flex-direction:column;transition:transform .4s}
 .card.in:hover{transform:translateY(-8px) scale(1.012)}
-.card.in{transition:opacity .8s,transform .45s cubic-bezier(.2,.8,.25,1)}
+.card.in{transition:opacity .55s ease-out, transform .45s cubic-bezier(.22,.9,.3,1)}
 .ph{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:22px 22px 0 0;
   background:#1a0e3e;z-index:1}
 .ph img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
@@ -398,7 +399,7 @@ const creators=[
  {c:'Сеша',        url:'https://t.me/promptssecha'},
  {c:'Мокси',       url:'https://t.me/mooxsy69'},
  {c:'Элвен',       url:'https://t.me/elvenprompts'},
- {c:'Ашкуди',      url:'https://t.me/lavalampochkaa'},
+ {c:'Ашкуди',  f:'ashkudi', url:'https://t.me/lavalampochkaa', one:true},
  {c:'Айка',        url:'https://t.me/TeaTurtleWoW'},
  {c:'Mokiro',      url:'https://t.me/Mmokiro'},
  {c:'Аляска',      url:'https://t.me/pipisipopi228'},
@@ -406,7 +407,7 @@ const creators=[
  {c:'velvet void', url:'https://t.me/vvelvetvoid'},
  {c:'Нана',        url:'https://t.me/Nananooneebananaa'},
  {c:'Панос',       url:'https://t.me/panos_prompt_crimes'},
- {c:'Шиппис',      url:'https://t.me/schippismalen'},
+ {c:'Шиппис',  f:'shippis', url:'https://t.me/schippismalen', one:true},
  {c:'Липка',       url:'https://t.me/lipkaprompts'},
  {c:'Ядвига',      url:'https://t.me/unpleasantdreams'},
  {c:'Kris',        url:'https://t.me/janitorai_burrow'},
@@ -425,7 +426,7 @@ const frame=`<svg viewBox="0 0 300 420" preserveAspectRatio="none">
    C12 275, 12 141, 14 38 C15 21, 23 13, 39 12"/></svg>`;
 
 document.getElementById('grid').innerHTML=creators.map((c,i)=>`
-<div class="card${c.f?'':' soon'}" style="transition-delay:${(i%8)*90}ms">
+<div class="card${c.f?'':' soon'}" >
  <div class="frame">${frame}</div>
  <div class="card-in">
   ${c.f ? `<div class="ph"><img src="assets/${c.f}.jpg" alt="${c.c}" loading="lazy">
@@ -450,7 +451,19 @@ document.getElementById('grid').innerHTML=creators.map((c,i)=>`
  </div>
 </div>`).join('');
 
-const io=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('in')),{threshold:.12});
+/* появление волной по рядам, без провисания */
+const io=new IntersectionObserver((entries,obs)=>{
+ const shown=entries.filter(x=>x.isIntersecting);
+ if(!shown.length)return;
+ shown.sort((a,b)=>{const ra=a.boundingClientRect,rb=b.boundingClientRect;
+   return (ra.top-rb.top)||(ra.left-rb.left);});
+ shown.forEach((x,k)=>{
+   x.target.style.transitionDelay=Math.min(k*70,340)+'ms';
+   requestAnimationFrame(()=>x.target.classList.add('in'));
+   setTimeout(()=>x.target.style.transitionDelay='',900);
+   obs.unobserve(x.target);
+ });
+},{threshold:.06,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.card').forEach(c=>io.observe(c));
 
 document.querySelectorAll('.dl').forEach(b=>b.addEventListener('click',e=>{
