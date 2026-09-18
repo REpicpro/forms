@@ -46,10 +46,11 @@ body.locked{overflow:hidden;height:100vh}
 .sp-skip{margin-top:16px;font-family:var(--hand);font-weight:600;font-size:1.42rem;color:#e2d3ff;
   display:flex;align-items:center;justify-content:center;gap:9px;
   opacity:0;animation:fadeUp .6s ease 1.8s forwards;text-shadow:0 0 14px rgba(190,150,255,.55)}
-.sp-ring{width:22px;height:22px;flex:none;animation:spinFast 1.15s linear infinite}
+.sp-ring{width:22px;height:22px;flex:none;overflow:visible;background:none;
+  animation:spinFast 1.15s linear infinite}
 .sp-ring circle{fill:none;stroke-width:3.4;stroke-linecap:round}
 .sp-ring .trk{stroke:rgba(255,255,255,.18)}
-.sp-ring .arc{stroke:#ffb3e6;stroke-dasharray:34 60;filter:drop-shadow(0 0 5px #ffb3e6)}
+.sp-ring .arc{stroke:#ffb3e6;stroke-dasharray:34 60}
 @keyframes spinFast{to{transform:rotate(360deg)}}
 .sp-star{position:absolute;pointer-events:none;animation:spStar 2.6s ease-in-out infinite;
   text-shadow:0 0 12px currentColor}
@@ -110,7 +111,9 @@ h1{font-family:'Comfortaa',cursive;font-size:clamp(2.7rem,9vw,4.8rem);font-weigh
   -webkit-background-clip:text;background-clip:text;color:transparent;
   animation:shine 9s linear infinite;filter:drop-shadow(0 0 22px rgba(160,120,255,.55))}
 @keyframes shine{to{background-position:300% center}}
-.tagline{color:var(--muted);font-size:clamp(1rem,3.4vw,1.15rem);margin:14px auto 0;max-width:520px;line-height:1.7}
+.tagline{color:var(--muted);font-size:clamp(.95rem,3.2vw,1.15rem);margin:16px auto 0;
+  max-width:760px;line-height:1.8;display:flex;flex-direction:column;gap:2px}
+.tagline span{display:block;text-wrap:balance}
 
 /* ══ СТРЕЛКА ══ */
 .tg-zone{position:relative;display:flex;flex-direction:column;align-items:center;margin:56px auto 0}
@@ -262,7 +265,10 @@ footer .hearts span{display:inline-block;animation:sp 3.4s ease-in-out infinite}
     <img class="logo" src="assets/logo.png" alt="RePic">
   </div>
   <h1>RePic</h1>
-  <p class="tagline">✧ Сообщество, где рождаются промты для ИИ-картинок ✧ тут хранятся референсы наших прекрасных персон-креаторов! ✧</p>
+  <p class="tagline">
+    <span>✧ Сообщество, где рождаются промты для ИИ-картинок ✧</span>
+    <span>✧ Тут хранятся референсы наших прекрасных персон-креаторов! ✧</span>
+  </p>
 
   <div class="tg-zone">
     <div class="cap">тык! ♡</div>
@@ -374,10 +380,10 @@ document.querySelectorAll('.arrow path').forEach(p=>
 
 /* ══ креаторы ══ */
 const creators=[
- {c:'Вену',   p:'Женя', f:'zhenya', url:'https://t.me/venuprompts'},
- {c:'Милка',  p:'Милка',f:'milka',  url:'https://t.me/milkagrobgrob'},
- {c:'Невлада',p:'Фаина',f:'faina',  url:'https://t.me/nivladish'},
- {c:'Слоппи', p:'Ева',  f:'eva',    url:'https://t.me/sloppyhouse'}
+ {c:'Venu',    p:'Женя', f:'zhenya', url:'https://t.me/venuprompts'},
+ {c:'Milka',   p:'Milka',f:'milka',  url:'https://t.me/milkagrobgrob', one:true},
+ {c:'Nivladi', p:'Фаина',f:'faina',  url:'https://t.me/nivladish'},
+ {c:'Sloppy',  p:'Ева',  f:'eva',    url:'https://t.me/sloppyhouse'}
 ];
 const tg='<svg viewBox="0 0 24 24"><path d="M9.8 16.3l-.4 4.6c.6 0 .8-.2 1.1-.5l2.6-2.5 5.4 4c1 .5 1.7.3 2-.9l3.5-16.5c.3-1.4-.5-2-1.5-1.6L1.3 9.6C-.1 10.1 0 11 1.1 11.3l5.5 1.7L19.4 5.4c.6-.4 1.2-.2.7.2z"/></svg>';
 const dl='<svg viewBox="0 0 24 24"><path d="M12 3a1.4 1.4 0 0 1 1.4 1.4v8.7l2.9-2.9a1.4 1.4 0 1 1 2 2l-5.3 5.3a1.4 1.4 0 0 1-2 0L5.7 12.2a1.4 1.4 0 0 1 2-2l2.9 2.9V4.4A1.4 1.4 0 0 1 12 3zM4.4 18.2a1.4 1.4 0 0 1 1.4 1.4h12.4a1.4 1.4 0 1 1 0 2.8H5.8a2.8 2.8 0 0 1-2.8-2.8 1.4 1.4 0 0 1 1.4-1.4z"/></svg>';
@@ -401,10 +407,11 @@ document.getElementById('grid').innerHTML=creators.map((c,i)=>`
     <span>★</span><span>♥</span><span>✦</span><span>♡</span><span>✧</span></div></div>
   </div>
   <div class="body">
-   <div class="names">
-    <div class="nrow"><span class="lbl">Имя креатора</span><span class="val">${c.c}</span></div>
-    <div class="divider"></div>
-    <div class="nrow"><span class="lbl">Имя персоны</span><span class="val p">${c.p}</span></div>
+   <div class="names">${c.one
+     ? `<div class="nrow"><span class="lbl">Креатор и персона</span><span class="val p">${c.c}</span></div>`
+     : `<div class="nrow"><span class="lbl">Имя креатора</span><span class="val">${c.c}</span></div>
+        <div class="divider"></div>
+        <div class="nrow"><span class="lbl">Имя персоны</span><span class="val p">${c.p}</span></div>`}
    </div>
    <div class="btns">
     <a class="btn dl" href="assets/${c.f}-full.png" download="RePic-${c.p}.png">${dl} Скачать референс персоны</a>
