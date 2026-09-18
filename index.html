@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RePic · Креаторы промтов</title>
-<meta name="description" content="Референсы персон креаторов сообщества RePic — промты для генерации ИИ-картинок.">
+<title>RE:pic · Креаторы промтов</title>
+<meta name="description" content="Референсы персон креаторов сообщества RE:pic — промты для генерации ИИ-картинок.">
 <link rel="icon" href="assets/logo.png">
-<meta property="og:title" content="RePic · Креаторы промтов">
+<meta property="og:title" content="RE:pic · Креаторы промтов">
 <meta property="og:image" content="assets/logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Comfortaa:wght@400;600;700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
@@ -253,7 +253,7 @@ footer .hearts span{display:inline-block;animation:sp 3.4s ease-in-out infinite}
 <!-- ══ ЗАСТАВКА ══ -->
 <div id="splash">
   <div class="sp-in">
-    <img class="sp-logo" src="assets/logo.png" alt="RePic">
+    <img class="sp-logo" src="assets/logo.png" alt="RE:pic">
     <div class="sp-title" id="spTitle"></div>
     <div class="sp-slogan">Загружаем наших звёздочек ✧</div>
     <div class="sp-bar"><i></i></div>
@@ -272,9 +272,9 @@ footer .hearts span{display:inline-block;animation:sp 3.4s ease-in-out infinite}
 <header>
   <div class="logo-wrap">
     <div class="halo"></div><div class="orbit" id="orbit"></div>
-    <img class="logo" src="assets/logo.png" alt="RePic">
+    <img class="logo" src="assets/logo.png" alt="RE:pic">
   </div>
-  <h1>RePic</h1>
+  <h1>RE:pic</h1>
   <p class="tagline">
     <span>✧ Сообщество, где рождаются промты для ИИ-картинок ✧</span>
     <span>✧ Тут хранятся референсы наших прекрасных персон-креаторов! ✧</span>
@@ -311,9 +311,9 @@ footer .hearts span{display:inline-block;animation:sp 3.4s ease-in-out infinite}
   <div class="credit">Сделано с любовью от
     <a class="sl" href="https://t.me/sloppyhouse" target="_blank" rel="noopener">Sloppy</a>
     для сообщества
-    <a class="rp" href="https://t.me/repicprompts" target="_blank" rel="noopener">RePic</a>
+    <a class="rp" href="https://t.me/repicprompts" target="_blank" rel="noopener">RE:pic</a>
   </div>
-  © 2026 RePic · промты, референсы и немного магии
+  © 2026 RE:pic · промты, референсы и немного магии
 </footer>
 
 <script>
@@ -322,7 +322,7 @@ const cols=['#ffb3e6','#b9e4ff','#d9b8ff','#fff0a8','#a8ffe8','#ffc9de'];
 /* ══ заставка ══ */
 (function(){
  const sp=document.getElementById('splash'),t=document.getElementById('spTitle');
- 'RePic'.split('').forEach((ch,i)=>{const s=document.createElement('span');
+ 'RE:pic'.split('').forEach((ch,i)=>{const s=document.createElement('span');
    s.textContent=ch;s.style.animationDelay=(.25+i*.09)+'s';t.appendChild(s);});
  for(let i=0;i<22;i++){const s=document.createElement('div');s.className='sp-star';
    s.textContent=['✦','✧','♡','★'][i%4];
@@ -406,7 +406,7 @@ const creators=[
  {c:'Мохнатик',    url:'https://t.me/pipisipopi228'},
  {c:'velvet void', url:'https://t.me/vvelvetvoid'},
  {c:'Нана',        url:'https://t.me/Nananooneebananaa'},
- {c:'Панос',       url:'https://t.me/panos_prompt_crimes'},
+ {c:'Панос',   p:'Влад', f:'panos', url:'https://t.me/panos_prompt_crimes'},
  {c:'Шиппис',  f:'shippis', url:'https://t.me/schippismalen', one:true},
  {c:'Липка',       url:'https://t.me/lipkaprompts'},
  {c:'Ядвига',      url:'https://t.me/unpleasantdreams'},
@@ -444,7 +444,7 @@ document.getElementById('grid').innerHTML=creators.map((c,i)=>`
         <div class="nrow"><span class="lbl">Имя персоны</span><span class="val p">${c.p}</span></div>`}
    </div>
    <div class="btns">
-    ${c.f ? `<a class="btn dl" href="assets/${c.f}-full.png" download="RePic-${c.c}.png">${dl} Скачать референс персоны</a>` : ''}
+    ${c.f ? `<a class="btn dl" href="assets/${c.f}-full.png" download="REpic-${c.c}.png">${dl} Скачать референс персоны</a>` : ''}
     <a class="btn tgl" href="${c.url}" target="_blank" rel="noopener">${tg} Telegram креатора</a>
    </div>
   </div>
