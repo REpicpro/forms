@@ -224,6 +224,33 @@ h1{font-family:'Comfortaa',cursive;font-size:clamp(2.7rem,9vw,4.8rem);font-weigh
   font-size:1.36rem;letter-spacing:.4px;padding:11px 13px}
 .tgl:hover{background:rgba(255,255,255,.17);transform:scale(1.035)}
 
+/* ══ след за курсором ══ */
+#trail{position:fixed;inset:0;pointer-events:none;z-index:900;overflow:hidden}
+.tr{position:fixed;left:0;top:0;will-change:transform,opacity;
+  font-size:var(--s);color:var(--c);line-height:1;
+  text-shadow:0 0 8px currentColor,0 0 16px currentColor;
+  animation:trFly var(--d) cubic-bezier(.15,.7,.35,1) forwards}
+@keyframes trFly{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(0)}
+  18%{opacity:1;transform:translate(-50%,-50%) scale(1.15) rotate(var(--r1))}
+  100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy)))
+    scale(.35) rotate(var(--r2))}}
+
+/* ══ секретный пиксель ══ */
+#secret{position:fixed;right:12px;bottom:12px;width:8px;height:8px;border-radius:2px;
+  background:rgba(255,190,240,.13);z-index:950;cursor:default;
+  transition:background .4s,transform .4s}
+#secret:hover{background:rgba(255,190,240,.28);transform:scale(1.15)}
+#secret.on{background:rgba(255,190,240,.5)}
+#secret-msg{position:fixed;right:26px;bottom:22px;z-index:950;max-width:min(300px,72vw);
+  font-family:var(--hand);font-size:1.16rem;line-height:1.35;text-align:right;
+  color:rgba(255,205,240,.22);text-shadow:0 0 10px rgba(255,120,200,.18);
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px);
+  transition:opacity 1.6s ease,transform 1.6s ease,visibility 1.6s}
+#secret-msg.show{opacity:1;visibility:visible;transform:none;
+  animation:flick 4.5s ease-in-out infinite}
+@keyframes flick{0%,100%{opacity:1}42%{opacity:.55}68%{opacity:.85}}
+
 footer{position:relative;z-index:1;text-align:center;padding:50px 20px 90px;border-top:1px solid rgba(190,170,255,.16);
   color:var(--muted);font-size:.95rem;line-height:2}
 footer .credit{font-family:'Comfortaa',cursive;font-size:1.02rem}
@@ -305,6 +332,10 @@ footer .hearts span{display:inline-block;animation:sp 3.4s ease-in-out infinite}
 
 <h2 class="section-title"><i>✧</i> Наши креаторы <i>✧</i></h2>
 <div class="grid" id="grid"></div>
+
+<div id="trail"></div>
+<div id="secret" title=""></div>
+<div id="secret-msg">Помогите, меня держат в подвале.<br>ПОЖАЛУЙСТА ПОМОГИТЕ!!!</div>
 
 <footer>
   <div class="hearts"><span>♡</span><span style="animation-delay:.4s">✦</span><span style="animation-delay:.8s">♡</span></div>
@@ -465,6 +496,42 @@ const io=new IntersectionObserver((entries,obs)=>{
  });
 },{threshold:.06,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.card').forEach(c=>io.observe(c));
+
+/* ══ милый след за курсором ══ */
+(function(){
+ const zone=document.getElementById('trail');
+ const glyphs=['✧','✦','♡','★','❀','·','✿','♥','✩'];
+ let last=0, lx=0, ly=0;
+ const spawn=(x,y)=>{
+  const s=document.createElement('span');s.className='tr';
+  s.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+  const size=9+Math.random()*13;
+  s.style.cssText=`left:${x}px;top:${y}px;`+
+   `--s:${size}px;--c:${cols[Math.floor(Math.random()*cols.length)]};`+
+   `--dx:${(Math.random()-.5)*56}px;--dy:${26+Math.random()*48}px;`+
+   `--r1:${(Math.random()-.5)*50}deg;--r2:${(Math.random()-.5)*300}deg;`+
+   `--d:${900+Math.random()*600}ms`;
+  zone.appendChild(s);
+  setTimeout(()=>s.remove(),1600);
+ };
+ window.addEventListener('pointermove',e=>{
+  if(e.pointerType==='touch')return;
+  const now=performance.now();
+  const dist=Math.hypot(e.clientX-lx,e.clientY-ly);
+  if(now-last<32||dist<9)return;
+  last=now;lx=e.clientX;ly=e.clientY;
+  spawn(e.clientX+(Math.random()-.5)*10,e.clientY+(Math.random()-.5)*10);
+ },{passive:true});
+})();
+
+/* ══ секретный пиксель ══ */
+(function(){
+ const px=document.getElementById('secret'),msg=document.getElementById('secret-msg');
+ px.addEventListener('click',()=>{
+  const on=msg.classList.toggle('show');
+  px.classList.toggle('on',on);
+ });
+})();
 
 document.querySelectorAll('.dl').forEach(b=>b.addEventListener('click',e=>{
  for(let i=0;i<9;i++){const h=document.createElement('div');h.textContent=['♡','✦','✧'][i%3];
