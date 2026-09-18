@@ -63,7 +63,7 @@ h1{font-family:'Comfortaa',cursive;font-size:clamp(2.7rem,9vw,4.8rem);font-weigh
 
 /* ── стрелка (рисуется) + кнопка ── */
 .tg-zone{position:relative;display:flex;flex-direction:column;align-items:center;margin:58px auto 0}
-.arrow{width:210px;height:96px;margin-bottom:2px;pointer-events:none;position:relative}
+.arrow{width:210px;height:100px;margin-bottom:-6px;transform:translateX(-42px);pointer-events:none;position:relative}
 .arrow svg{width:100%;height:100%;overflow:visible;
   fill:none;stroke:var(--pink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
   filter:drop-shadow(0 0 9px rgba(255,140,220,.85))}
@@ -80,8 +80,9 @@ h1{font-family:'Comfortaa',cursive;font-size:clamp(2.7rem,9vw,4.8rem);font-weigh
   color:#ffd0f2;transform:rotate(-8deg);text-shadow:0 0 14px rgba(255,140,220,.75);
   animation:capFade 4.5s ease-in-out infinite;white-space:nowrap}
 @keyframes capFade{0%,18%{opacity:0}42%,82%{opacity:1}96%,100%{opacity:0}}
-.tg-btn{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:#fff;font-weight:900;
-  padding:17px 40px;border-radius:999px;font-size:1.08rem;position:relative;z-index:2;
+.tg-btn{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:#fff;
+  font-family:var(--hand);font-weight:700;font-size:1.72rem;letter-spacing:.5px;
+  padding:13px 40px;border-radius:999px;position:relative;z-index:2;
   background:linear-gradient(120deg,#8b5cff,#5aa8ff,#c78bff,#8b5cff);background-size:300% auto;
   box-shadow:0 12px 38px rgba(120,60,255,.55);transition:.35s;animation:shine 14s linear infinite}
 .tg-btn:hover{transform:translateY(-5px) scale(1.06);box-shadow:0 18px 52px rgba(150,90,255,.8)}
@@ -99,10 +100,11 @@ h1{font-family:'Comfortaa',cursive;font-size:clamp(2.7rem,9vw,4.8rem);font-weigh
   transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.25,1)}
 .card.in{opacity:1;transform:none}
 .frame{position:absolute;inset:-9px;z-index:4;pointer-events:none}
-.frame svg{width:100%;height:100%;fill:none;stroke:#ffc9ef;stroke-width:2.6;
-  stroke-linecap:round;stroke-linejoin:round;
-  filter:url(#wobble) drop-shadow(0 0 7px rgba(255,170,235,.8));
-  transition:stroke .4s}
+.frame svg{width:100%;height:100%;fill:none;stroke:#ffc9ef;
+  stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;
+  filter:drop-shadow(0 0 6px rgba(255,170,235,.75));transition:stroke .4s}
+.frame .l1{stroke-width:2.4}
+.frame .l2{stroke-width:1.5;opacity:.6}
 .card:hover .frame svg{stroke:#e0f0ff}
 .card-in{background:linear-gradient(170deg,rgba(45,22,100,.9),rgba(26,14,62,.95));
   border-radius:30px;overflow:hidden;backdrop-filter:blur(14px);height:100%;
@@ -141,18 +143,20 @@ h1{font-family:'Comfortaa',cursive;font-size:clamp(2.7rem,9vw,4.8rem);font-weigh
 .dl svg{fill:#4a2270;animation:down 2.6s ease-in-out infinite}
 @keyframes down{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
 .dl:hover{transform:scale(1.035);box-shadow:0 12px 30px rgba(200,160,255,.55)}
-.tgl{background:rgba(255,255,255,.08)}
+.tgl{background:rgba(255,255,255,.08);font-family:var(--hand);font-weight:700;
+  font-size:1.36rem;letter-spacing:.4px;padding:11px 13px}
 .tgl:hover{background:rgba(255,255,255,.17);transform:scale(1.035)}
 
 footer{text-align:center;padding:50px 20px 90px;border-top:1px solid rgba(190,170,255,.16);
   color:var(--muted);font-size:.93rem;line-height:2}
-footer a{color:var(--ice2);text-decoration:none;font-weight:800}
+footer a{color:var(--ice2);text-decoration:none;font-family:var(--hand);
+  font-weight:700;font-size:1.3rem}
 footer a:hover{color:#fff}
 footer .hearts{font-size:1.3rem;letter-spacing:8px}
 footer .hearts span{display:inline-block;animation:sp 3s ease-in-out infinite}
 @media(max-width:700px){
   header{padding:66px 18px 26px}.logo{width:132px;height:132px}
-  .arrow{width:168px;height:84px}.arrow .cap{font-size:1.3rem}
+  .arrow{width:168px;height:84px;transform:translateX(-32px)}.arrow .cap{font-size:1.3rem}
   .section-title{margin:64px 0 36px}
 }
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
@@ -161,14 +165,6 @@ footer .hearts span{display:inline-block;animation:sp 3s ease-in-out infinite}
 <body>
 <div class="bg"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div id="stars"></div><div id="doodles"></div>
-
-<!-- фильтр «дрожащей» линии для рамок -->
-<svg width="0" height="0" style="position:absolute">
- <filter id="wobble">
-  <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="7" result="n"/>
-  <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/>
- </filter>
-</svg>
 
 <header>
   <div class="logo-wrap">
@@ -180,10 +176,10 @@ footer .hearts span{display:inline-block;animation:sp 3s ease-in-out infinite}
 
   <div class="tg-zone">
     <div class="arrow">
-      <span class="cap">нам сюда! ♡</span>
-      <svg viewBox="0 0 210 96" preserveAspectRatio="none">
-        <path class="draw body-line" d="M18 30 C36 62, 74 76, 104 78 C132 80, 158 70, 176 50"/>
-        <path class="draw tip" d="M160 56 L177 48 L180 66"/>
+      <span class="cap">тык! ♡</span>
+      <svg viewBox="0 0 210 100">
+        <path class="draw body-line" d="M14 16 C58 8, 116 22, 143 70"/>
+        <path class="draw tip" d="M124 60 L146 76 L152 50"/>
       </svg>
     </div>
     <a class="tg-btn" href="https://t.me/repicprompts" target="_blank" rel="noopener">
@@ -264,10 +260,14 @@ const tg='<svg viewBox="0 0 24 24"><path d="M9.8 16.3l-.4 4.6c.6 0 .8-.2 1.1-.5l
 const dl='<svg viewBox="0 0 24 24"><path d="M12 3a1.4 1.4 0 0 1 1.4 1.4v8.7l2.9-2.9a1.4 1.4 0 1 1 2 2l-5.3 5.3a1.4 1.4 0 0 1-2 0L5.7 12.2a1.4 1.4 0 0 1 2-2l2.9 2.9V4.4A1.4 1.4 0 0 1 12 3zM4.4 18.2a1.4 1.4 0 0 1 1.4 1.4h12.4a1.4 1.4 0 1 1 0 2.8H5.8a2.8 2.8 0 0 1-2.8-2.8 1.4 1.4 0 0 1 1.4-1.4z"/></svg>';
 /* рисованная от руки рамка */
 const frame=`<svg viewBox="0 0 300 420" preserveAspectRatio="none">
- <path d="M31 6 C110 2, 196 3, 268 7 C288 8, 296 18, 295 36
-          C299 140, 297 282, 294 388 C293 406, 283 414, 264 415
-          C180 419, 104 418, 34 414 C15 413, 5 404, 6 385
-          C3 276, 4 138, 7 34 C8 16, 14 8, 31 6 Z"/></svg>`;
+ <path class="l1" d="M30 7 C104 4, 197 4, 269 8 C286 9, 294 17, 294 33
+   C296 141, 296 281, 293 387 C292 404, 284 412, 267 413
+   C181 416, 106 416, 33 412 C16 411, 8 403, 8 386
+   C6 278, 6 139, 9 33 C10 16, 15 8, 30 7 Z"/>
+ <path class="l2" d="M39 11 C110 8, 192 9, 263 12 C281 13, 289 20, 290 37
+   C292 143, 291 279, 289 383 C288 400, 280 408, 262 409
+   C178 412, 108 412, 38 408 C20 407, 12 399, 12 382
+   C11 275, 11 141, 13 37 C14 20, 22 12, 39 11"/></svg>`;
 
 document.getElementById('grid').innerHTML=creators.map((c,i)=>`
 <div class="card" style="transition-delay:${i*110}ms">
